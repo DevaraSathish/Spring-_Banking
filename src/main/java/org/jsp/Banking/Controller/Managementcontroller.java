@@ -1,0 +1,42 @@
+package org.jsp.Banking.Controller;
+
+import java.util.List;
+
+import org.jsp.Banking.Dto.BankAccount;
+import org.jsp.Banking.Dto.Management;
+import org.jsp.Banking.Exception.MyException;
+import org.jsp.Banking.Helper.ResponseStructure;
+import org.jsp.Banking.Service.ManagementService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("management")
+public class Managementcontroller {
+	@Autowired
+	ManagementService service;
+	@PostMapping("add")
+public  ResponseStructure<Management> save(@RequestBody Management management){
+	return service.save(management);
+}
+	@PostMapping("login")
+	public ResponseStructure<Management> login(@RequestBody Management management) throws MyException
+	{
+		return service.login(management);
+	}
+	@GetMapping("accounts")
+	public ResponseStructure<List<BankAccount>> fetchAllAccounts() throws MyException
+	{
+		return service.fetchAllAccounts();
+	}
+	@PutMapping("accountstatuschange/{acno}")
+	public ResponseStructure<BankAccount> changestatus (@PathVariable long acno){
+		return service.changestatus(acno);
+	}
+}
